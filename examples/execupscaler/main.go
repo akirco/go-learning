@@ -11,13 +11,7 @@ import (
 	"github.com/AlecAivazis/survey/v2"
 )
 
-
-
-
 func main() {
-
-
-
 
 	// log cwd
 	rootdir, error := os.Getwd()
@@ -28,6 +22,7 @@ func main() {
 
 	bin := filepath.Join(rootdir, "bin", "realesrgan")
 	bin = filepath.FromSlash(bin)
+	print(bin)
 
 	modelsPath := filepath.FromSlash(filepath.Join(rootdir, "models"))
 
@@ -41,12 +36,10 @@ func main() {
 	var inputMode string
 
 	prompt := &survey.Select{
-			Message: "Please choose the mode:",
-			Options: []string{"parallel", "sequential"},
+		Message: "Please choose the mode:",
+		Options: []string{"parallel", "sequential"},
 	}
 	survey.AskOne(prompt, &inputMode)
-
-
 
 	if inputMode == "parallel" {
 		// 创建一个chan，用于存储需要处理的图像文件路径
@@ -75,7 +68,7 @@ func main() {
 		}
 
 		// 遍历输入目录下的所有图像文件，并将它们存储到fileChan中
-	   files, err := os.ReadDir(inputDir)
+		files, err := os.ReadDir(inputDir)
 		if err != nil {
 			fmt.Println("Error reading input directory:", err)
 			return
@@ -125,14 +118,12 @@ func main() {
 				cmd.Stderr = os.Stderr
 				err := cmd.Run()
 
-
 				if err != nil {
 					fmt.Println("Command execution failed:", err)
 				}
 
 			}
 		}
-
 	} else {
 		fmt.Println("Invalid mode input, please input 'parallel' or 'sequential'.")
 		return
